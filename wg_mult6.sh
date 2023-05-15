@@ -175,7 +175,6 @@ EOF
 }
 
 function add_user(){
-    mkdir $(curl -s ifconfig.me)
     green "=================================="
     green "给新用户起个名字，不能和已有用户重复"
     green "=================================="
@@ -197,7 +196,6 @@ EOF
         green "添加完成，文件：/etc/wireguard/$newname.conf"
         green "============================================="
         rm -f temprikey tempubkey
-        mv /etc/wireguard/004.conf $(curl -s ifconfig.me)
 
     else
         red "======================"

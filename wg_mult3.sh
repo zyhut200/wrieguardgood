@@ -179,13 +179,13 @@ function add_user(){
     green "给新用户起个名字，不能和已有用户重复"
     green "=================================="
     cd /etc/wireguard/
-    if [ ! -f "/etc/wireguard/001.conf" ]; then
-        cp client.conf 001.conf
+    if [ ! -f "/etc/wireguard/$(curl -s ifconfig.me)-001.conf" ]; then
+        cp client.conf $(curl -s ifconfig.me)-001.conf
         wg genkey | tee temprikey | wg pubkey > tempubkey
         ipnum=$(grep Allowed /etc/wireguard/wg0.conf | tail -1 | awk -F '[ ./]' '{print $6}')
         newnum=$((10#${ipnum}+1))
-        sed -i 's%^PrivateKey.*$%'"PrivateKey = $(cat temprikey)"'%' 001.conf
-        sed -i 's%^Address.*$%'"Address = 10.77.0.$newnum\/24"'%' 001.conf
+        sed -i 's%^PrivateKey.*$%'"PrivateKey = $(cat temprikey)"'%' $(curl -s ifconfig.me)-001.conf
+        sed -i 's%^Address.*$%'"Address = 10.77.0.$newnum\/24"'%' $(curl -s ifconfig.me)-001.conf
     cat >> /etc/wireguard/wg0.conf <<-EOF
 [Peer]
 PublicKey = $(cat tempubkey)
